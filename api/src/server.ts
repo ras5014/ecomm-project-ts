@@ -4,6 +4,10 @@ import helmet from "helmet";
 import morgan from "morgan";
 import logger from "./utils/logger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import { notFound } from "./middlewares/notFound.js";
+
+// Import Routes
+import productsRouter from "./routes/products.route.js";
 
 const app = express();
 
@@ -29,11 +33,13 @@ app.use(
 app.use(express.json());
 
 // Router Middlewares
+app.use("/api/products", productsRouter);
 
 // Error Handler Middleware
 app.use(errorHandler);
 
 // notFound Middleware
+app.use(notFound);
 
 // Start Server
 const PORT = process.env.PORT || 8080;
