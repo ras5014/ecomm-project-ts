@@ -4,3 +4,4 @@ dist
 images
 app.log
 readme.md
+.DS_Store
