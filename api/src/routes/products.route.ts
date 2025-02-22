@@ -2,20 +2,25 @@ import express from "express";
 
 // Import Controllers
 import {
-  getProducts,
-  getProduct,
-  createProduct,
-  updateProduct,
-  deleteProduct,
+  getProductsController,
+  getProductController,
+  createProductController,
+  updateProductController,
+  deleteProductController,
 } from "../controllers/products.controller.js";
+import { validate } from "../middlewares/validate.js";
+import {
+  createProductSchema,
+  updateProductSchema,
+} from "../schemas/products.schema";
 
 const router = express.Router();
 
 router
-  .get("/", getProducts)
-  .get("/:id", getProduct)
-  .post("/", createProduct)
-  .put("/:id", updateProduct)
-  .delete("/:id", deleteProduct);
+  .get("/", getProductsController)
+  .get("/:id", getProductController)
+  .post("/", validate(createProductSchema), createProductController)
+  .put("/:id", updateProductController)
+  .delete("/:id", deleteProductController);
 
 export default router;

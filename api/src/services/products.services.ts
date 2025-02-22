@@ -1,13 +1,39 @@
 import { prisma } from "../lib/prisma";
+import {
+  CreateProductSchema,
+  UpdateProductSchema,
+} from "../schemas/products.schema";
 
-type Product = {
-  name: String;
-  description: String;
-  price: Number;
+export const createProduct = async (data: CreateProductSchema) => {
+  const { name, description, price } = data;
+  const product = await prisma.products.create({
+    data: {
+      name,
+      description,
+      price,
+    },
+  });
+  return product;
 };
 
-export const createProduct = async ({ name, description, price }: Product) => {
-  const product = await prisma.products.create({
+export const getProducts = async () => {
+  return await prisma.products.findMany();
+};
+
+export const getProductById = async (id: any) => {
+  return await prisma.products.findUnique({
+    where: {
+      id,
+    },
+  });
+};
+
+export const updateProduct = async (id: string, data: UpdateProductSchema) => {
+  const { name, description, price } = data;
+  return await prisma.products.update({
+    where: {
+      id,
+    },
     data: {
       name,
       description,
@@ -16,6 +42,10 @@ export const createProduct = async ({ name, description, price }: Product) => {
   });
 };
 
-export const getProducts = async () => {
-  return await prisma.products.findMany();
+export const deleteProduct = async (id: any) => {
+  await prisma.products.delete({
+    where: {
+      id,
+    },
+  });
 };
